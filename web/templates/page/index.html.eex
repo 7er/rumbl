@@ -1,6 +1,7 @@
 <div class="jumbotron">
   <h2>Welcome to Rumbl.io!</h2>
   <p class="lead">Rumble out loud.</p>
+  <p><%= link "Users", to: user_path(@conn, :index) %></p>
 </div>
 
 <div class="row marketing">
@@ -34,3 +35,8 @@
     </ul>
   </div>
 </div>
+
+<div id="messages"></div>
+<input id="chat-input" type="text"></input>
+<div id="typing"></div>
+
