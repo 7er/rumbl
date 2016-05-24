@@ -1,22 +1,31 @@
 defmodule Rumbl.UserController do
   use Rumbl.Web, :controller
+  alias Rumbl.User
   def index(conn, _params) do
-    users = Repo.all(Rumbl.User)
+    users = Repo.all(User)
     render conn, "index.html", users: users
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get(Rumbl.User, id)
+    user = Repo.get(User, id)
     render conn, "show.html", user: user
   end
 
   def new(conn, _params) do
-    changeset = Rumbl.User.changeset(%Rumbl.User{})
+    changeset = User.changeset(%User{})
     render conn, "new.html", changeset: changeset
   end
 
+  def delete(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
+    Repo.delete!(user)
+    conn
+    |> put_flash(:info, "Deleted #{user.name}!")
+    |> redirect(to: user_path(conn, :index))
+  end
+
   def create(conn, %{"user" => user_params}) do
-    changeset = Rumbl.User.changeset(%Rumbl.User{}, user_params)
+    changeset = User.registration_changeset(%User{}, user_params)
     case Repo.insert(changeset) do
       {:ok, user} ->
         conn

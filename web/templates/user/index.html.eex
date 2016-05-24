@@ -4,6 +4,11 @@
       <tr>
         <td><%= render "user.html", user: user %></td>
         <td><%= link "View", to: user_path(@conn, :show, user.id) %></td>
+        <td><%= link(
+                content_tag(:span, "", [{:class, "glyphicon glyphicon-remove"}, {"aria-hidden", "true"}]),
+                method: :delete,
+                to: user_path(@conn, :delete, user.id)) %>
+        </td>
       </tr>
   <% end %>
 <table>
