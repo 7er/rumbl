@@ -8,3 +8,6 @@
   <% end %>
 <table>
 
+<%= link "Add User", to: user_path(@conn, :new), class: "btn btn-primary" %>
+    
+
