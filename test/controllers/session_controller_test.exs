@@ -6,14 +6,29 @@ defmodule Rumbl.SessionControllerTest do
     changeset = User.registration_changeset(
       %User{},
       %{"username" => "7er", "password" => "fleksnes", "name" => "Syver"})
-    Repo.insert!(changeset)
-    :ok
+    {:ok, user} = Repo.insert(changeset)
+    {:ok, user: user}
   end
 
-  test "DELETE /", %{conn: conn} do    
+  def create_session(conn) do
+    post conn, "/sessions", %{"session" => %{"username" => "7er", "password" => "fleksnes"}}
+  end
+
+  test "POST /sessions", %{conn: conn} do    
     conn = post conn, "/sessions", %{"session" => %{"username" => "7er", "password" => "fleksnes"}}
-    #assert response(conn, 200) =~ "Welcome to Rumbl.io!"
     assert redirected_to(conn, 302) == "/"
     assert get_flash(conn, :info) == "Welcome back, Syver!"
-  end  
+  end
+
+  test "DELETE /sessions/:id", %{conn: conn, user: user} do
+    conn = create_session(conn)
+    conn = delete(conn, "/sessions/#{user.id}")
+    assert redirected_to(conn, 302) == "/"
+  end
+
+  test "DELETE /sessions/:id with wrong id", %{conn: conn, user: user} do
+    conn = create_session(conn)
+    conn = delete(conn, "/sessions/#{user.id + 1}")
+    assert response(conn, 400) == "Invalid request"
+  end
 end

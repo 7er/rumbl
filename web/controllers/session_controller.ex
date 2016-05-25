@@ -38,7 +38,6 @@ defmodule Rumbl.SessionController do
   end
 
   def delete(conn, %{"id" => string_id}) do
-    #IO.inspect(id)
     {id, ""} = Integer.parse(string_id)
     if (conn.assigns.current_user.id != id) do
       conn 
@@ -48,7 +47,7 @@ defmodule Rumbl.SessionController do
       conn
       |> put_flash(:info, "Bye, #{conn.assigns.current_user.name}!")
       |> Rumbl.Auth.logout_current_user
-      |> redirect(to: page_path(conn, :index))    
+      |> redirect(to: page_path(conn, :index))
     end
   end
 end

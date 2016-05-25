@@ -3,6 +3,3 @@
 <div>
   <%= render Rumbl.UserView, "show.html", user: @current_user %>
 </div>
-
-<%= link "Log out", method: :delete, to: session_path(@conn, :delete, @current_user.id), class: "btn btn-primary" %>
-
