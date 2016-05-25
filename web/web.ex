@@ -30,6 +30,7 @@ defmodule Rumbl.Web do
     quote do
       use Phoenix.Controller
 
+      alias Rumbl.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 

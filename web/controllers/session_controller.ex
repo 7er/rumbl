@@ -40,13 +40,15 @@ defmodule Rumbl.SessionController do
   def delete(conn, %{"id" => string_id}) do
     #IO.inspect(id)
     {id, ""} = Integer.parse(string_id)
-    #if conn.assigns.current_user.id != id
-    conn
-    |> render
-    
-    conn
-    |> put_flash(:info, "Bye, #{conn.assigns.current_user.name}!")
-    |> Rumbl.Auth.logout_current_user
-    |> redirect(to: page_path(conn, :index))    
+    if (conn.assigns.current_user.id != id) do
+      conn 
+      |> put_status(400)
+      |> text("Invalid request")
+    else
+      conn
+      |> put_flash(:info, "Bye, #{conn.assigns.current_user.name}!")
+      |> Rumbl.Auth.logout_current_user
+      |> redirect(to: page_path(conn, :index))    
+    end
   end
 end
