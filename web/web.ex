@@ -58,6 +58,7 @@ defmodule Rumbl.Web do
   def router do
     quote do
       use Phoenix.Router
+      alias Rumbl.Repo
     end
   end
 
