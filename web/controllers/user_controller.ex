@@ -3,6 +3,7 @@ defmodule Rumbl.UserController do
   alias Rumbl.User
 
   plug :authenticate when action in [:index, :show]
+  plug :scrub_params, "user" when action in [:create, :update]
   
   def index(conn, _params) do
     users = Repo.all(User)
