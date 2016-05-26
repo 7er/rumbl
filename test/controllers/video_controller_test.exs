@@ -6,12 +6,13 @@ defmodule Rumbl.VideoControllerTest do
   @invalid_attrs %{}
 
   setup do
-    user = insert_user(username: "max")
-    conn = assign(conn(), :current_user, user)
-    {:ok, conn: conn, user: user}
+    #user = insert_user(username: "max")
+    #conn = assign(conn(), :current_user, user)
+    #{:ok, conn: conn, user: user}
+    :ok
   end
 
-  test "requires user authentication on all actions", %{conn: conn, user: user} do
+  test "requires user authentication on all actions", %{conn: conn} do
     Enum.each([
       get(conn, video_path(conn, :new)),
       get(conn, video_path(conn, :index)),
