@@ -36,6 +36,7 @@ defmodule Rumbl.Web do
 
       import Rumbl.Router.Helpers
       import Rumbl.Gettext
+      import Rumbl.Auth, only: [authenticate: 2]
     end
   end
 
