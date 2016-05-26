@@ -28,7 +28,7 @@ defmodule Rumbl.Auth do
     |> configure_session(renew: true)
   end
 
-  def logout_current_user(conn) do
+  def logout(conn) do
     conn
     |> assign(:current_user, nil)
     |> delete_session(:user_id)

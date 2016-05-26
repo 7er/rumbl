@@ -33,8 +33,8 @@ defmodule Rumbl.SessionController do
     else
       conn
       |> put_flash(:info, "Bye, #{conn.assigns.current_user.name}!")
-      |> Rumbl.Auth.logout_current_user
-      |> redirect(to: page_path(conn, :index))
+      |> Rumbl.Auth.logout()
+      |> redirect(to: page_path(conn, :index))      
     end
   end
 end
