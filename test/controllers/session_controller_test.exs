@@ -3,10 +3,7 @@ defmodule Rumbl.SessionControllerTest do
   alias Rumbl.User
 
   setup do
-    changeset = User.registration_changeset(
-      %User{},
-      %{"username" => "7er", "password" => "fleksnes", "name" => "Syver"})
-    {:ok, user} = Repo.insert(changeset)
+    user = insert_user(%{username: "7er", password: "fleksnes", name: "Syver"})
     {:ok, user: user}
   end
 
