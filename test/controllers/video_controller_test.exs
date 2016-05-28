@@ -2,6 +2,7 @@ defmodule Rumbl.VideoControllerTest do
   use Rumbl.ConnCase
 
   alias Rumbl.Video
+  alias Rumbl.Category
   @valid_attrs %{url: "http://youtu.be", title: "vid", description: "a vid", }
   @invalid_attrs %{title: "invalid"}
 
@@ -74,9 +75,13 @@ defmodule Rumbl.VideoControllerTest do
 
   @tag login_as: "max"
   test "shows chosen video", %{conn: conn, user: user} do
+    video = insert_video(
+      user,
+      title: "funny cats",
+      category_id: Repo.get_by!(Category, name: "Action").id)
     conn = get conn, video_path(
       conn, :show,
-      insert_video(user, title: "funny cats"))
+      video)
     assert html_response(conn, 200) =~ "Show video"
   end
 
