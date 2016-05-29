@@ -103,7 +103,8 @@ defmodule Rumbl.VideoControllerTest do
   test "updates chosen video and redirects when data is valid", %{conn: conn, user: user} do
     video = insert_video(user, title: "funny cats")
     conn = put conn, video_path(conn, :update, video), video: @valid_attrs
-    assert redirected_to(conn) == video_path(conn, :show, video)
+    updated_video = Repo.get(Video, video.id)
+    assert redirected_to(conn) == video_path(conn, :show, updated_video)
     assert Repo.get_by(Video, @valid_attrs)
   end
 
