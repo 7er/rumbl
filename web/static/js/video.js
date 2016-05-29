@@ -15,6 +15,13 @@ let Video = {
 
   onReady(videoId, socket) {
     let msgContainer = document.getElementById("msg-container")
+    msgContainer.addEventListener("click", e => {
+      e.preventDefault()
+      let seconds = e.target.getAttribute("data-seek") ||
+          e.target.parentNode.getAttribute("data-seek")
+      if (!seconds) { return }
+      Player.seekTo(seconds)
+    })
     let msgInput = document.getElementById("msg-input")
     let postButton = document.getElementById("msg-submit")
     let vidChannel = socket.channel("videos:" + videoId)
@@ -26,12 +33,17 @@ let Video = {
     })
     vidChannel.on("ping", ({count}) => console.log("PING", count))
     vidChannel.on("new_annotation", (resp) => {
+      vidChannel.params.last_seend_id = resp.id
       this.renderAnnotation(msgContainer, resp)
     })
 
     vidChannel.join()
       .receive("ok", ({annotations}) => {
         console.log("joined the video channel", annotations)
+        let ids = annotations.map(ann => ann.id)
+        if (ids.length > 0) {
+          vidChannel.params.last_seen_id = Math.max(...ids)
+        }
         this.scheduleMessages(msgContainer, annotations)
       })
       .receive("error", reason => console.log("join failed", reason) )
