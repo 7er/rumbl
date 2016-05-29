@@ -53,10 +53,10 @@ defmodule Rumbl.VideoController do
   end
 
   def show(conn, %{"id" => id}, user) do
-    video = user_videos(user)
+    video =
+      user_videos(user)
+    |> from(preload: [:category, :user])
     |> Repo.get!(id)
-    |> Repo.preload(:category)
-    |> Repo.preload(:user)
     render(conn, video: video)
   end
 
