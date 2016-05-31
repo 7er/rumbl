@@ -39,7 +39,8 @@ defmodule Rumbl.Mixfile do
      {:gettext, "~> 0.9"},
      {:mix_test_watch, "~> 0.2", only: [:dev, :test]},
      {:dogma, "> 0.0.0", only: [:dev, :test]},
-     {:comeonin, "~> 2.0"}]
+     {:comeonin, "~> 2.0"},
+     {:sweet_xml, "~> 0.5.0"}]
   end
 
   
