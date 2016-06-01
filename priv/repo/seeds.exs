@@ -5,12 +5,14 @@
 
 alias Rumbl.Repo
 alias Rumbl.Category
+alias Rumbl.User
 
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
-  if Repo.get_by(Category, name: category) == nil do
+  unless Repo.get_by(Category, name: category) do
     Repo.insert!(%Category{name: category})
-  else
-    :ok
   end
 end
- 
+
+unless Repo.get_by(User, username: "wolfram") do
+  Repo.insert!(%User{name: "Worlfram", username: "wolfram"})
+end
